@@ -9,3 +9,8 @@
 # Copyright (c) 2015, Neil Freeman <contact@fakeisthenewreal.org>
 
 
+__all__ = [
+    'test_twittergeo'
+]
+
+from . import test_twittergeo

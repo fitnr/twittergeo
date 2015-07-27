@@ -8,7 +8,7 @@
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, Neil Freeman <contact@fakeisthenewreal.org>
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 try:
     readme = open('readme.rst').read()
@@ -18,7 +18,7 @@ except IOError:
 setup(
     name='twittergeo',
     version='0.1.0',
-    description='Export twitter searches to geoJSON',
+    description='Export Twitter searches to GeoJSON',
     long_description=readme,
     keywords='twitter geo cli',
     author='Neil Freeman',
@@ -35,18 +35,20 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Operating System :: OS Independent',
     ],
-    packages=find_packages(),
+
+    packages=['twittergeo'],
+
     include_package_data=False,
     install_requires=[
         'twitter_bot_utils>=0.9,<0.10',
     ],
 
-    extras_require={
-        'tests': [
-            'coverage',
-            'tox',
-        ],
-    },
+    test_suite="tests",
+
+    tests_require=[
+        'mock',
+        'tox',
+    ],
 
     entry_points={
         'console_scripts': [
