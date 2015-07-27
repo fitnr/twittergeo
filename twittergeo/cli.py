@@ -29,7 +29,7 @@ def main():
 
     arguments = parser.parse_args()
 
-    twitter = api.API(None, arguments.config, app='twittergeo')
+    twitter = api.API(app='twittergeo', config_file=arguments.config)
 
     kwargs = {k:v for k, v in vars(arguments).items() if k in ('q', 'screen', 'geocode') and v is not None}
 
@@ -42,12 +42,10 @@ def main():
     if getattr(arguments, 'q'):
         method = twitter.search
 
-    geojson = {
-        "type": "FeatureCollection",
-        "features": []
-    }
+    geojson = twittergeo.collection()
+
     for tweet in Cursor(method, **kwargs).items(arguments.count):
-        feature = twittergeo.geojson(tweet, lite=arguments.lite)
+        feature = twittergeo.feature(tweet, lite=arguments.lite)
 
         if feature:
             geojson['features'].append(feature)

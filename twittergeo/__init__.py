@@ -12,3 +12,5 @@ __version__ = '0.1.0'
 __author__ = 'Neil Freeman'
 __license__ = 'GPLv3'
 __all__ = ['twittergeo']
+
+from .twittergeo import collection, feature
