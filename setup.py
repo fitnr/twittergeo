@@ -13,11 +13,11 @@ from setuptools import setup
 try:
     readme = open('readme.rst').read()
 except IOError:
-    readme = ''
+    readme = open('readme.md').read()
 
 setup(
     name='twittergeo',
-    version='0.1.0',
+    version='0.1.1',
     description='Export Twitter searches to GeoJSON',
     long_description=readme,
     keywords='twitter geo cli',
