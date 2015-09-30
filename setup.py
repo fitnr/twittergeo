@@ -33,6 +33,7 @@ setup(
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Operating System :: OS Independent',
     ],
 
@@ -40,14 +41,13 @@ setup(
 
     include_package_data=False,
     install_requires=[
-        'twitter_bot_utils>=0.9,<0.10',
+        'twitter_bot_utils>=0.9.1,<0.10',
     ],
 
     test_suite="tests",
 
     tests_require=[
         'mock',
-        'tox',
     ],
 
     entry_points={
