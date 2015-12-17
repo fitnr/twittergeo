@@ -11,9 +11,9 @@
 from setuptools import setup
 
 try:
-    readme = open('readme.rst').read()
+    readme = open('README.rst').read()
 except IOError:
-    readme = open('readme.md').read()
+    readme = ''
 
 setup(
     name='twittergeo',
