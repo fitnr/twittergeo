@@ -53,9 +53,8 @@ class TestCase(unittest.TestCase):
     status = tweepy.Status.parse(api, TWEET)
 
     def test_basics(self):
-        assert twittergeo
-        assert twittergeo.feature
-        assert twittergeo.collection
+        assert hasattr(twittergeo, 'feature')
+        assert hasattr(twittergeo, 'collection')
 
     def test_feature(self):
         feature = twittergeo.feature(self.status)
@@ -69,14 +68,10 @@ class TestCase(unittest.TestCase):
 
     def test_feature_lite(self):
         feature = twittergeo.feature(self.status, lite=True)
-
         assert feature['properties']['screen_name'] == 'googuns_prod'
 
     def test_collection(self):
         collection = twittergeo.collection()
-
         collection['features'] = [twittergeo.feature(self.status)]
-
         request = requests.post(validate_endpoint, data=json.dumps(collection))
-
-        assert request.ok == True
+        assert request.ok is True

@@ -10,7 +10,9 @@
 
 
 __all__ = [
+    'test_cli',
     'test_twittergeo'
 ]
 
+from . import test_cli
 from . import test_twittergeo

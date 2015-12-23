@@ -1,0 +1,4 @@
+apps:
+    twittergeo:
+        consumer_key: foo
+        consumer_secret: bar
