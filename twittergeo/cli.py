@@ -17,24 +17,24 @@ from . import twittergeo
 def main():
     parser = argparse.ArgumentParser('twittergeo', description='Pull Twitter searches into GeoJSON')
 
-    parser.add_argument('-c', '--config', metavar='path', default=None, type=str, help='path to config file to parse (json or yaml)')
-    parser.add_argument('--app', default='twittergeo', type=str, help='Twitter app to read in config. Default: twittergeo')
-    parser.add_argument('--consumer-key', type=str, metavar='key', help='Twitter consumer key')
-    parser.add_argument('--consumer-secret', type=str, metavar='secret', help='Twitter consumer secret')
+    parser.add_argument('-c', '--config', dest='config_file', metavar='path', default=None, type=str, help='jsom or yaml config file')
+    parser.add_argument('--app', default='twittergeo', type=str, help='Twitter app to read in config (default: %(default)s)')
+    parser.add_argument('--consumer-key', type=str, help=argparse.SUPPRESS)
+    parser.add_argument('--consumer-secret', type=str, help=argparse.SUPPRESS)
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-u', '--user', type=str, dest='screen_name', metavar='screen_name', help='User timeline to search')
     group.add_argument('-f', '--search', type=str, dest='search', metavar='search', help='Search string')
 
     parser.add_argument('--lite', action='store_true', help='Output minimal information about tweets')
-    parser.add_argument('--count', type=int, default=100, help='Maximum number of tweets to return [default: 100]')
+    parser.add_argument('--count', type=int, default=100, help='Maximum number of tweets to return (default: %(default)s)')
 
-    parser.add_argument('--geocode', type=str, help='optional geocode parameter when searching')
+    parser.add_argument('--geocode', type=str, metavar='LAT,LON,RADIUS', help='optional geocode parameter when searching')
 
-    parser.add_argument('--since-id', type=int, help='Fetch only tweets since this ID')
-    parser.add_argument('--max-id', type=int, help='Fetch only tweets before this ID')
+    parser.add_argument('--since', metavar='ID', type=int, help='Fetch tweets since this ID')
+    parser.add_argument('--max', metavar='ID', type=int, help='Fetch tweets before this ID')
 
-    parser.add_argument('-o', '--output', type=str, help='output file (default is stdout)', default='/dev/stdout')
+    parser.add_argument('-o', '--output', type=str, help='output file (default: stdout)', default='/dev/stdout')
 
     arguments = parser.parse_args()
     twitter = API(arguments)
