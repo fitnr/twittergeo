@@ -8,6 +8,20 @@
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, Neil Freeman <contact@fakeisthenewreal.org>
 
+from tweepy import Cursor
+
+def twittergeo(method, count=None, lite=None, **kwargs):
+    count = count or 100
+    geojson = collection()
+
+    for tweet in Cursor(method, **kwargs).items(count):
+        feat = feature(tweet, lite=lite)
+
+        if feat:
+            geojson['features'].append(feat)
+
+    return geojson
+
 
 def collection():
     return {
@@ -25,7 +39,7 @@ def feature(tweet, lite=None):
     '''
     feat = {}
 
-    if tweet.geo:
+    if hasattr(tweet, 'geo'):
 
         feat = {
             "type": "Feature",

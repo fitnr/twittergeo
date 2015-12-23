@@ -11,8 +11,9 @@
 import argparse
 import json
 from twitter_bot_utils import API
-from tweepy import Cursor
-from . import twittergeo
+
+from .twittergeo import twittergeo
+
 
 def main():
     parser = argparse.ArgumentParser('twittergeo', description='Pull Twitter searches into GeoJSON')
@@ -37,6 +38,7 @@ def main():
     parser.add_argument('-o', '--output', type=str, help='output file (default: stdout)', default='/dev/stdout')
 
     arguments = parser.parse_args()
+
     twitter = API(arguments)
 
     if getattr(arguments, 'screen_name'):
@@ -45,16 +47,10 @@ def main():
     if getattr(arguments, 'search'):
         method = twitter.search
 
-    geojson = twittergeo.collection()
-
     keys = ('search', 'screen_name', 'geocode', 'since_id', 'max_id')
     kwargs = {k: v for k, v in vars(arguments).items() if k in keys and v is not None}
 
-    for tweet in Cursor(method, **kwargs).items(arguments.count):
-        feature = twittergeo.feature(tweet, lite=arguments.lite)
-
-        if feature:
-            geojson['features'].append(feature)
+    geojson = twittergeo(method, arguments.count, arguments.lite, **kwargs)
 
     with open(arguments.output, 'w') as f:
         json.dump(geojson, f)

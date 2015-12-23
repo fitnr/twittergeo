@@ -13,4 +13,4 @@ __author__ = 'Neil Freeman'
 __license__ = 'GPL-3.0'
 __all__ = ['twittergeo']
 
-from .twittergeo import collection, feature
+from .twittergeo import twittergeo, collection, feature
