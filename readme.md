@@ -12,22 +12,11 @@ pip install twittergeo
 
 ([Don't have Pip?](https://pip.pypa.io/en/stable/installing.html))
 
-## Usage
+## Use
 
 To use the tool, you'll need a application registered with Twitter. Instructions from Twitter: [https://apps.twitter.com](https://apps.twitter.com).
 
-Now that you have an application, you'll need the consumer key and the consumer secret. Enter them on the command line: 
-
-````bash
-$ KEY=<paste in the key>
-$ SECRET=<paste in the secret>
-````
-
-And here's the command to download a GeoJSON of geotagged tweets:
-
-````bash
-$ twittergeo --user example_username --consumer-secret $SECRET --consumer-key $KEY -o example_username.geojson
-````
+When your application is set, you'll get two keys, which need to be added to a config file.
 
 ### Setting up a config file
 
@@ -44,12 +33,7 @@ apps:
 Call the file bots.yaml and save it in your home directory, and `twittergeo` will find it automatically. Or use a custom file:
 
 ````bash
-$ twittergeo --search "some words" --config bots.yaml -o some_words.geojson
-````
-
-To download a search:
-````bash
-$ twittergeo --search "some words" --consumer-secret $SECRET --consumer-key $KEY > some_words.geojson
+$ twittergeo --search "some words" --config configfile.yaml -o some_words.geojson
 ````
 
 ### Smaller files
@@ -80,25 +64,27 @@ $ twittergeo --search "some words" --geocode 37.781157,-74.2644,10km -o some_wor
 ### Options
 
 ````
-usage: twittergeo [-h] [-c path] [--consumer-key key]
-                  [--consumer-secret secret] [-u user | -f search] [--lite]
-                  [--count COUNT] [--geocode GEOCODE] [-o OUTPUT]
+usage: twittergeo [-h] [-c path] [--app APP] [-u screen_name | -f search]
+                  [--lite] [--count COUNT] [--geocode LAT,LON,RADIUS]
+                  [--since ID] [--max ID] [-o OUTPUT]
 
 Pull Twitter searches into GeoJSON
 
 optional arguments:
   -h, --help            show this help message and exit
   -c path, --config path
-                        path to config file to parse (json or yaml)
-  --consumer-key key    Twitter consumer key
-  --consumer-secret secret
-                        Twitter consumer secret
-  -u user, --user user  User timeline to search
+                        jsom or yaml config file
+  --app APP             Twitter app to read in config (default: twittergeo)
+  -u screen_name, --user screen_name
+                        User timeline to search
   -f search, --search search
                         Search string
   --lite                Output minimal information about tweets
-  --count COUNT         Maximum number of tweets to return
-  --geocode GEOCODE     optional geocode parameter when searching
+  --count COUNT         Maximum number of tweets to return (default: 100)
+  --geocode LAT,LON,RADIUS
+                        optional geocode parameter when searching
+  --since ID            Fetch tweets since this ID
+  --max ID              Fetch tweets before this ID
   -o OUTPUT, --output OUTPUT
-                        output file (default is stdout)
+                        output file (default: stdout)
 ````
