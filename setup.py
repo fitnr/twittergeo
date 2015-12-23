@@ -41,7 +41,7 @@ setup(
 
     include_package_data=False,
     install_requires=[
-        'twitter_bot_utils>=0.9.1,<0.10',
+        'twitter_bot_utils>=0.10',
     ],
 
     test_suite="tests",

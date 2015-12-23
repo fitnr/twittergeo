@@ -8,45 +8,47 @@
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, Neil Freeman <contact@fakeisthenewreal.org>
 
-from . import twittergeo
 import argparse
 import json
-from twitter_bot_utils.api import API
+from twitter_bot_utils import API
 from tweepy import Cursor
+from . import twittergeo
 
 def main():
     parser = argparse.ArgumentParser('twittergeo', description='Pull Twitter searches into GeoJSON')
 
     parser.add_argument('-c', '--config', metavar='path', default=None, type=str, help='path to config file to parse (json or yaml)')
+    parser.add_argument('--app', default='twittergeo', type=str, help='Twitter app to read in config. Default: twittergeo')
     parser.add_argument('--consumer-key', type=str, metavar='key', help='Twitter consumer key')
     parser.add_argument('--consumer-secret', type=str, metavar='secret', help='Twitter consumer secret')
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-u', '--user', type=str, metavar='user', dest='screen', help='User timeline to search')
-    group.add_argument('-f', '--search', type=str, metavar='search', dest='q', help='Search string')
+    group.add_argument('-u', '--user', type=str, dest='screen_name', metavar='screen_name', help='User timeline to search')
+    group.add_argument('-f', '--search', type=str, dest='search', metavar='search', help='Search string')
 
     parser.add_argument('--lite', action='store_true', help='Output minimal information about tweets')
-    parser.add_argument('--count', type=int, default=100, help='Maximum number of tweets to return')
+    parser.add_argument('--count', type=int, default=100, help='Maximum number of tweets to return [default: 100]')
+
     parser.add_argument('--geocode', type=str, help='optional geocode parameter when searching')
 
-    parser.add_argument('-o', '--output', type=str, help='output file (default is stdout)')
+    parser.add_argument('--since-id', type=int, help='Fetch only tweets since this ID')
+    parser.add_argument('--max-id', type=int, help='Fetch only tweets before this ID')
+
+    parser.add_argument('-o', '--output', type=str, help='output file (default is stdout)', default='/dev/stdout')
 
     arguments = parser.parse_args()
+    twitter = API(arguments)
 
-    twitter = API(app='twittergeo', config_file=arguments.config)
-
-    kwargs = {k:v for k, v in vars(arguments).items() if k in ('q', 'screen', 'geocode') and v is not None}
-
-    if 'screen' in kwargs:
-        kwargs['screen_name'] = kwargs.pop('screen')
-
-    if getattr(arguments, 'screen'):
+    if getattr(arguments, 'screen_name'):
         method = twitter.user_timeline
 
-    if getattr(arguments, 'q'):
+    if getattr(arguments, 'search'):
         method = twitter.search
 
     geojson = twittergeo.collection()
+
+    keys = ('search', 'screen_name', 'geocode', 'since_id', 'max_id')
+    kwargs = {k: v for k, v in vars(arguments).items() if k in keys and v is not None}
 
     for tweet in Cursor(method, **kwargs).items(arguments.count):
         feature = twittergeo.feature(tweet, lite=arguments.lite)
@@ -54,11 +56,8 @@ def main():
         if feature:
             geojson['features'].append(feature)
 
-    if arguments.output:
-        with open(arguments.output, 'w') as f:
-            json.dump(geojson, f)
-    else:
-        print(json.dumps(geojson))
+    with open(arguments.output, 'w') as f:
+        json.dump(geojson, f)
 
 if __name__ == '__main__':
     main()
