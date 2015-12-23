@@ -17,7 +17,7 @@ except IOError:
 
 setup(
     name='twittergeo',
-    version='0.1.1',
+    version='0.2.0',
     description='Export Twitter searches to GeoJSON',
     long_description=readme,
     keywords='twitter geo cli',

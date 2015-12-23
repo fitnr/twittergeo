@@ -8,7 +8,7 @@
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, Neil Freeman <contact@fakeisthenewreal.org>
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 __author__ = 'Neil Freeman'
 __license__ = 'GPL-3.0'
 __all__ = ['twittergeo']
