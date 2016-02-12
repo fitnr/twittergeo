@@ -20,7 +20,7 @@ When your application is set, you'll get two keys, which need to be added to a c
 
 ### Setting up a config file
 
-Pasting in your consumer key and secret every time is boring. Save a config file like so:
+You'll need a `bots.yaml` (or `.json`) file with you keys, because copying and pasting them is boring, and environment variabled don't work if you have several applications. Save a config file like so:
 
 ````yaml
 apps:
@@ -30,7 +30,7 @@ apps:
 
 ````
 
-Call the file bots.yaml and save it in your home directory, and `twittergeo` will find it automatically. Or use a custom file:
+Call the file bots.yaml and save it in your home directory. `twittergeo` will find it automatically. Or use a custom file:
 
 ````bash
 $ twittergeo --search "some words" --config configfile.yaml -o some_words.geojson
@@ -38,7 +38,7 @@ $ twittergeo --search "some words" --config configfile.yaml -o some_words.geojso
 
 ### Smaller files
 
-Use the `--lite` option to get smaller files. The only properties saved will be the tweet's text and ID, and the user's screen_name and userid.
+Use the `--lite` option to get smaller files. The only properties saved will be the tweet's `text` and `id` and the user's `screen_name` and `userid`.
 
 ````bash
 $ twittergeo --search "some words" --lite > some_words.geojson
@@ -46,7 +46,7 @@ $ twittergeo --search "some words" --lite > some_words.geojson
 
 ### Get more tweets
 
-By default, Twitter returns only 15 tweets, which is pretty weak. Use the `--count` parameter to request more. Note that Twittergeo will return `count` tweets, but ignore non-geotagged tweets, so your files will likely be much shorter. The Twitter API doesn't have a way request only geotagged tweets.
+By default, Twitter returns only 15 tweets, which is pretty weak. Use the `--count` parameter to request more. Note that Twittergeo will return `count` tweets, but that may include non-geotagged tweets, so your files will likely be much shorter. The Twitter API doesn't have a way request only geotagged tweets.
 
 ````bash
 $ twittergeo --search "some words" --count 100 > some_words.geojson
@@ -80,7 +80,7 @@ optional arguments:
   -f search, --search search
                         Search string
   --lite                Output minimal information about tweets
-  --count COUNT         Maximum number of tweets to return (default: 100)
+  --count COUNT         Maximum number of tweets to return (default: 500)
   --geocode LAT,LON,RADIUS
                         optional geocode parameter when searching
   --since ID            Fetch tweets since this ID
