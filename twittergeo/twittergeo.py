@@ -39,7 +39,7 @@ def feature(tweet, lite=None):
     '''
     feat = {}
 
-    if hasattr(tweet, 'geo'):
+    if tweet.geo:
 
         feat = {
             "type": "Feature",

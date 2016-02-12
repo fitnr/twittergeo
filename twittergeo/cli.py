@@ -25,10 +25,10 @@ def main():
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-u', '--user', type=str, dest='screen_name', metavar='screen_name', help='User timeline to search')
-    group.add_argument('-f', '--search', type=str, dest='search', metavar='search', help='Search string')
+    group.add_argument('-f', '--search', type=str, dest='q', metavar='search', help='Search string')
 
     parser.add_argument('--lite', action='store_true', help='Output minimal information about tweets')
-    parser.add_argument('--count', type=int, default=100, help='Maximum number of tweets to return (default: %(default)s)')
+    parser.add_argument('--count', type=int, default=500, help='Maximum number of tweets to return (default: %(default)s)')
 
     parser.add_argument('--geocode', type=str, metavar='LAT,LON,RADIUS', help='optional geocode parameter when searching')
 
@@ -38,17 +38,17 @@ def main():
     parser.add_argument('-o', '--output', type=str, help='output file (default: stdout)', default='/dev/stdout')
 
     arguments = parser.parse_args()
-
-    twitter = API(arguments)
+    twitter = API(arguments, logger_name='twittergeo')
 
     if getattr(arguments, 'screen_name'):
         method = twitter.user_timeline
 
-    if getattr(arguments, 'search'):
+    if getattr(arguments, 'q'):
         method = twitter.search
 
-    keys = ('search', 'screen_name', 'geocode', 'since_id', 'max_id')
+    keys = ('q', 'screen_name', 'geocode', 'since_id', 'max_id')
     kwargs = {k: v for k, v in vars(arguments).items() if k in keys and v is not None}
+    kwargs['result_type'] = 'recent'
 
     geojson = twittergeo(method, arguments.count, arguments.lite, **kwargs)
 
