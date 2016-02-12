@@ -13,7 +13,10 @@ from setuptools import setup
 try:
     readme = open('README.rst').read()
 except IOError:
-    readme = ''
+    try:
+        readme = open('README.md').read()
+    except IOError:
+        readme = ''
 
 setup(
     name='twittergeo',
