@@ -32,8 +32,8 @@ def main():
 
     parser.add_argument('--geocode', type=str, metavar='LAT,LON,RADIUS', help='optional geocode parameter when searching')
 
-    parser.add_argument('--since', metavar='ID', type=int, help='Fetch tweets since this ID')
-    parser.add_argument('--max', metavar='ID', type=int, help='Fetch tweets before this ID')
+    parser.add_argument('--since', dest='since_id', metavar='ID', type=int, help='Fetch tweets since this ID')
+    parser.add_argument('--max', dest='max_id', metavar='ID', type=int, help='Fetch tweets before this ID')
 
     parser.add_argument('-o', '--output', type=str, help='output file (default: stdout)', default='/dev/stdout')
 
