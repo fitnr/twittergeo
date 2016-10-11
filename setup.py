@@ -18,9 +18,12 @@ except IOError:
     except IOError:
         readme = ''
 
+with open('twittergeo/__init__.py') as i:
+    version = next(r for r in i.readlines() if '__version__' in r).split('=')[1].strip('"\' \n')
+
 setup(
     name='twittergeo',
-    version='0.2.0',
+    version=version,
     description='Export Twitter searches to GeoJSON',
     long_description=readme,
     keywords='twitter geo cli',
